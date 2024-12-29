@@ -1,18 +1,11 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: Update base images in Dockerfiles
+description: Update base images in Dockerfiles
+author: "Piotrekkr"
 
-# Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  dockerfile:
+    description: Dockerfile path
     required: true
-    default: '1000'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
 
 runs:
   using: node20
