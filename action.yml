@@ -1,6 +1,6 @@
 name: Update base images in Dockerfiles
 description: Update base images in Dockerfiles
-author: "Piotrekkr"
+author: piotrekkr
 
 inputs:
   dockerfile:
