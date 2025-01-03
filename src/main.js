@@ -1,17 +1,15 @@
 const core = require('@actions/core')
+const { Dockerfile, DockerfileUpdater } = require('./dockerfile')
 
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
-  try {
-    const dockerfile = core.getMultilineInput('dockerfile', { required: true })
-
-    core.debug(`Checking for base image updates in: ${dockerfile}`)
-  } catch (error) {
-    // Fail the workflow run if an error occurs
-    core.setFailed(error.message)
+  const paths = core.getMultilineInput('dockerfile', { required: true })
+  for (const path of paths) {
+    const updater = new DockerfileUpdater(path)
+    await updater.update()
   }
 }
 
