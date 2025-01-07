@@ -1,5 +1,5 @@
-name: Update base images in Dockerfiles
-description: Update base images in Dockerfiles
+name: Dockerfile Updater
+description: Update base images in Dockerfile
 author: piotrekkr
 
 inputs:
