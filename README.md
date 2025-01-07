@@ -1,19 +1,23 @@
+# Dockerfile Updater
+
 [![GitHub Super-Linter](https://github.com/actions/javascript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/actions/javascript-action/actions/workflows/ci.yml/badge.svg)
 
-## About
-
 GitHub Action to keep base images inside dockerfiles up to date.
 
-It works like this:
+## About
 
-1. extract images from `FROM` and `COPY --from` instructions
-1. check for new versions of images and digests
-1. modify dockerfile with updated versions
+It is important to keep base image used inside dockerfile up to date. This
+action will help you with this process by:
 
-When semver is used (e.g. `nginx:1.2.3-alpine`) as image tag it will try to
-update `PATCH` version and its digest. In case of non semver tags it will add or
-update existing tag digest. Examples:
+1. extracting images from dockerfile instructions
+1. checking inside docker registries for new versions of images and their
+   digests
+1. modify dockerfile with new versions if available
+
+When SemVer is used (e.g. `nginx:1.2.3-alpine`) as image tag it will try to
+update `PATCH` version and its digest. In case of non SemVer tags it will add or
+update image tag digest. Examples:
 
 ```text
 nginx                                       => nginx:latest@sha256:<sha>
@@ -31,7 +35,31 @@ private-registry.io/ns/img:tag              => private-registry.io/ns/img:tag@sh
 private-registry.io/ns/img:tag@sha256:<sha> => private-registry.io/ns/img:tag@sha256:<updated-sha>
 ```
 
-It supports both public and private registries. Registry must implement
+### Supported dockerfile instructions
+
+This action will update images used inside `FROM` and `COPY --from=`
+instructions.
+
+Instructions presented below are not currently supported:
+
+```dockerfile
+# dynamic image based on build arg
+ARG VERSION=latest
+FROM busybox:$VERSION
+
+# RUN with mount and from
+RUN --mount=type=bind,from=busybox:latest,target=/mnt cp /mnt/file /file
+
+# multiline instructions like
+COPY \
+    --from=busybox:latest \
+    /mnt/file \
+    /file
+```
+
+### Supported docker registries
+
+Action supports both public and private registries. Registry must implement
 [Docker Registry v2 API](https://distribution.github.io/distribution/).
 Currently all major registries implement this v2 API.
 
@@ -142,9 +170,9 @@ steps:
 
 ## Inputs
 
-| Name         | Required | Description                                          |
-| ------------ | -------- | ---------------------------------------------------- |
-| `dockerfile` | `true`   | Dockerfile path, can be multiline for multiple files |
+| Name         | Required | Description                                       |
+| ------------ | -------- | ------------------------------------------------- |
+| `dockerfile` | `true`   | Dockerfile path, use multiline for multiple files |
 
 ## Development
 
@@ -175,7 +203,7 @@ need to perform some initial setup steps before you can develop your action.
 1. :white_check_mark: Run the tests
 
    ```bash
-   $ npm test
+   npm test
    ```
 
 > [!NOTE]
