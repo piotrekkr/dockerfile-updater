@@ -1,0 +1,9 @@
+title = "Custom Gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+regexes = [
+  '''dXNlcjpwYXNzCg==''',
+]
