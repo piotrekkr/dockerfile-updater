@@ -4,6 +4,8 @@ title = "Custom Gitleaks configuration"
 useDefault = true
 
 [allowlist]
+description = "global allow list"
+regexTarget = "match"
 regexes = [
   '''dXNlcjpwYXNzCg==''',
 ]
