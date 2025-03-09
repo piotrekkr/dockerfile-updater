@@ -1,11 +1,10 @@
-title = "Custom Gitleaks configuration"
+title = "Gitleaks configuration"
 
 [extend]
 useDefault = true
 
 [allowlist]
-description = "global allow list"
-regexTarget = "match"
+description = "Ignore dummy example auth"
 regexes = [
-  '''dXNlcjpwYXNzCg==''',
+  '''dXNlcjpwYXNzCg=='''
 ]
