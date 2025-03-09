@@ -1,0 +1,10 @@
+title = "Gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Ignore dummy example auth"
+regexes = [
+  '''dXNlcjpwYXNzCg=='''
+]

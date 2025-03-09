@@ -89,8 +89,9 @@ class DockerfileUpdater {
   /** @type {Dockerfile|null} */
   #dockerfile = null
 
-  constructor(path) {
-    this.#dockerfile = new Dockerfile(path)
+  /** @param {Dockerfile} dockerfile */
+  constructor(dockerfile) {
+    this.#dockerfile = dockerfile
   }
 
   async #get_instructions_to_update() {

@@ -8,7 +8,7 @@ const { Dockerfile, DockerfileUpdater } = require('./dockerfile')
 async function run() {
   const paths = core.getMultilineInput('dockerfile', { required: true })
   for (const path of paths) {
-    const updater = new DockerfileUpdater(path)
+    const updater = new DockerfileUpdater(new Dockerfile(path))
     await updater.update()
   }
 }
