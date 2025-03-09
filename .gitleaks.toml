@@ -8,3 +8,6 @@ description = "Ignore dummy example auth"
 regexes = [
   '''dXNlcjpwYXNzCg=='''
 ]
+paths = [
+  '''__tests__/docker.test.js'''
+]
