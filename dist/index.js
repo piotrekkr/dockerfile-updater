@@ -27476,8 +27476,9 @@ class DockerfileUpdater {
   /** @type {Dockerfile|null} */
   #dockerfile = null
 
-  constructor(path) {
-    this.#dockerfile = new Dockerfile(path)
+  /** @param {Dockerfile} dockerfile */
+  constructor(dockerfile) {
+    this.#dockerfile = dockerfile
   }
 
   async #get_instructions_to_update() {
@@ -27674,7 +27675,7 @@ const { Dockerfile, DockerfileUpdater } = __nccwpck_require__(4479)
 async function run() {
   const paths = core.getMultilineInput('dockerfile', { required: true })
   for (const path of paths) {
-    const updater = new DockerfileUpdater(path)
+    const updater = new DockerfileUpdater(new Dockerfile(path))
     await updater.update()
   }
 }
