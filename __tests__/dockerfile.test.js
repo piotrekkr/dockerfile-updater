@@ -178,7 +178,35 @@ describe('DockerfileUpdater', () => {
     )
   })
 
-  it('should uodate digest if latest one is different', async () => {
+  it('should not add digest if no digest can be found', async () => {
+    const dockerfile = new Dockerfile('some/path')
+    const contents = 'FROM nginx:latest as test1'
+    dockerfile.read.mockResolvedValue(contents)
+    Registry.prototype.get_latest_tag_and_digest.mockResolvedValueOnce({
+      tag: 'latest',
+      digest: null
+    })
+    const updater = new DockerfileUpdater(dockerfile)
+    await updater.update()
+    expect(dockerfile.write).toHaveBeenCalledWith('FROM nginx:latest as test1')
+  })
+
+  it('should not update digest if no digest can be found', async () => {
+    const dockerfile = new Dockerfile('some/path')
+    const contents = 'FROM nginx:1.2.3@sha256:abcdef as test1'
+    dockerfile.read.mockResolvedValue(contents)
+    Registry.prototype.get_latest_tag_and_digest.mockResolvedValueOnce({
+      tag: '1.2.3',
+      digest: null
+    })
+    const updater = new DockerfileUpdater(dockerfile)
+    await updater.update()
+    expect(dockerfile.write).toHaveBeenCalledWith(
+      'FROM nginx:1.2.3@sha256:abcdef as test1'
+    )
+  })
+
+  it('should update digest if latest one is different', async () => {
     const dockerfile = new Dockerfile('some/path')
     const contents = 'FROM nginx:tag@sha256:aaaa as test1'
     dockerfile.read.mockResolvedValue(contents)

@@ -27523,7 +27523,14 @@ class DockerfileUpdater {
       tag: false,
       digest: false
     })
-    latest_image_name += `:${latest_tag_and_digest.tag}@${latest_tag_and_digest.digest}`
+    latest_image_name += `:${latest_tag_and_digest.tag}`
+    if (latest_tag_and_digest.digest !== null) {
+      // if digest is available, add it to the image name
+      latest_image_name += `@${latest_tag_and_digest.digest}`
+    } else if (image.get_digest() !== null) {
+      // if digest is not available, but image has it, use it
+      latest_image_name += `@${image.get_digest()}`
+    }
     return latest_image_name
   }
 }
@@ -27717,10 +27724,9 @@ class RegistryAPIClient {
     this.#docker_config = docker_config
   }
 
-  async #call_registry_api_v2(api_path_suffix) {
+  async #call_registry_api_v2(api_path_suffix, headers = {}) {
     const ns_name = `${this.#image.get_namespace(true)}/${this.#image.get_name()}`
     const auth = await this.#get_auth_token()
-    const headers = {}
     if (auth !== null) {
       headers['Authorization'] = `Bearer ${auth}`
     }
@@ -27751,7 +27757,14 @@ class RegistryAPIClient {
   }
 
   async get_digest(tag) {
-    const response = await this.#call_registry_api_v2(`manifests/${tag}`)
+    const headers = {
+      Accept:
+        'application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.index.v1+json'
+    }
+    const response = await this.#call_registry_api_v2(
+      `manifests/${tag}`,
+      headers
+    )
     if (response === null) {
       return null
     }

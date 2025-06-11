@@ -136,7 +136,14 @@ class DockerfileUpdater {
       tag: false,
       digest: false
     })
-    latest_image_name += `:${latest_tag_and_digest.tag}@${latest_tag_and_digest.digest}`
+    latest_image_name += `:${latest_tag_and_digest.tag}`
+    if (latest_tag_and_digest.digest !== null) {
+      // if digest is available, add it to the image name
+      latest_image_name += `@${latest_tag_and_digest.digest}`
+    } else if (image.get_digest() !== null) {
+      // if digest is not available, but image has it, use it
+      latest_image_name += `@${image.get_digest()}`
+    }
     return latest_image_name
   }
 }

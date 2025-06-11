@@ -25,10 +25,9 @@ class RegistryAPIClient {
     this.#docker_config = docker_config
   }
 
-  async #call_registry_api_v2(api_path_suffix) {
+  async #call_registry_api_v2(api_path_suffix, headers = {}) {
     const ns_name = `${this.#image.get_namespace(true)}/${this.#image.get_name()}`
     const auth = await this.#get_auth_token()
-    const headers = {}
     if (auth !== null) {
       headers['Authorization'] = `Bearer ${auth}`
     }
@@ -59,7 +58,14 @@ class RegistryAPIClient {
   }
 
   async get_digest(tag) {
-    const response = await this.#call_registry_api_v2(`manifests/${tag}`)
+    const headers = {
+      Accept:
+        'application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.index.v1+json'
+    }
+    const response = await this.#call_registry_api_v2(
+      `manifests/${tag}`,
+      headers
+    )
     if (response === null) {
       return null
     }

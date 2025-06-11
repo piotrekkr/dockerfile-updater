@@ -42,7 +42,9 @@ describe('RegistryApiClient', () => {
       `https://${reg_host}/v2/${image.get_namespace()}/${image.get_name()}/manifests/${image.get_tag(true)}`,
       {
         headers: {
-          Authorization: 'Bearer token'
+          Authorization: 'Bearer token',
+          Accept:
+            'application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.index.v1+json'
         }
       }
     )
@@ -66,7 +68,9 @@ describe('RegistryApiClient', () => {
       `https://${reg_host}/v2/${image.get_namespace()}/${image.get_name()}/manifests/${image.get_tag(true)}`,
       {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          Accept:
+            'application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.index.v1+json'
         }
       }
     )
