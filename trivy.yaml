@@ -1,0 +1,2 @@
+scan:
+  skip-dirs: ['__tests__']

@@ -1,0 +1,11 @@
+title = "Custom Gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "global allow list"
+regexTarget = "match"
+regexes = [
+  '''dXNlcjpwYXNzCg==''',
+]
