@@ -3,17 +3,17 @@
 [![GitHub Super-Linter](https://github.com/actions/javascript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/actions/javascript-action/actions/workflows/ci.yml/badge.svg)
 
-GitHub Action to keep base images inside dockerfiles up to date.
+GitHub Action to keep base images inside Dockerfiles up to date.
 
 ## About
 
-It is important to keep base image used inside dockerfile up to date. This
+It is important to keep base image used inside Dockerfile up to date. This
 action will help you with this process by:
 
-1. extracting images from dockerfile instructions
-1. checking inside docker registries for new versions of images and their
+1. extracting images from Dockerfile instructions
+1. checking inside Docker registries for new versions of images and their
    digests
-1. modify dockerfile with new versions if available
+1. modify Dockerfile with new versions if available
 
 When SemVer is used (e.g. `nginx:1.2.3-alpine`) as image tag it will try to
 update `PATCH` version and its digest. In case of non SemVer tags it will add or
@@ -35,7 +35,7 @@ private-registry.io/ns/img:tag              => private-registry.io/ns/img:tag@sh
 private-registry.io/ns/img:tag@sha256:<sha> => private-registry.io/ns/img:tag@sha256:<updated-sha>
 ```
 
-### Supported dockerfile instructions
+### Supported Dockerfile instructions
 
 This action will update images used inside `FROM` and `COPY --from=`
 instructions.
@@ -57,7 +57,7 @@ COPY \
     /file
 ```
 
-### Supported docker registries
+### Supported Docker registries
 
 Action supports both public and private registries. Registry must implement
 [Docker Registry v2 API](https://distribution.github.io/distribution/).
@@ -71,7 +71,7 @@ steps:
     id: checkout
     uses: actions/checkout@v4
 
-  - name: Update dockerfile
+  - name: Update Dockerfile
     uses: piotrekkr/dockerfile-updater@v1
     with:
       dockerfile: |
@@ -98,7 +98,7 @@ steps:
       username: ${{ vars.DOCKERHUB_USERNAME }}
       password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  - name: Update dockerfile
+  - name: Update Dockerfile
     uses: piotrekkr/dockerfile-updater@v1
     with:
       dockerfile: Dockerfile
@@ -125,10 +125,10 @@ steps:
   - name: Set up Cloud SDK
     uses: google-github-actions/setup-gcloud@v2
 
-  - name: Configure docker in GCP
+  - name: Configure Docker in GCP
     run: gcloud auth configure-docker europe-docker.pkg.dev
 
-  - name: Update dockerfile
+  - name: Update Dockerfile
     uses: piotrekkr/dockerfile-updater@v1
     with:
       dockerfile: Dockerfile
@@ -145,7 +145,7 @@ steps:
     id: checkout
     uses: actions/checkout@v4
 
-  - name: Update dockerfile
+  - name: Update Dockerfile
     uses: piotrekkr/dockerfile-updater@v1
     with:
       dockerfile: |
